@@ -1,62 +1,53 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// var React = require('react');
-// var ReactDOM = require('react-dom');
+import { styles } from './styles';
 
-const styles = {
-    background: {
-        background: '#000',
-        float: 'left',
-        position: 'fixed',
-        width: '100%',
-        top: '0',
-        left: '0'
-    },
-    center: {
-        margin: 'auto',
-        width: '100%',
-        padding: '0'
-    }
-};
+function render(){
 
-class BackgroundImg extends React.Component {
-    render() {
-        return <div style={styles.background}>
-                <img style={styles.center} src='img/img-1.png' alt='background'/>
-            </div>;
-    }
+    const img = new Image();
+    img.src = 'img/img-1.png';
+    img.addEventListener("load", function() {
+
+        class CanvasComponent extends React.Component {
+            componentDidMount() {
+                this.updateCanvas();
+            }
+            componentDidUpdate() {
+                this.updateCanvas();
+            }
+            createRect(contex, color='red', coor=[]) {
+                if (contex) {
+                    contex.beginPath();
+                    contex.lineWidth='6';
+                    contex.strokeStyle= color;
+                    contex.rect(...coor);
+                    contex.stroke();
+                }
+            }
+            updateCanvas() {
+                const ctx = this.refs.canvas.getContext('2d');
+                ctx.drawImage(img,0,0);
+                this.createRect(ctx, 'red', [20,20,150,150]);
+                this.createRect(ctx, 'green', [30,30,160,160]);
+            }
+            render() {
+                return (
+                    <canvas ref="canvas" width={this.props.width} height={this.props.height}/>
+                );
+            }
+        }
+
+        class Welcome extends React.Component {
+            render() {
+                return  <div><CanvasComponent width={img.width} height={img.height}/></div>;
+            }
+        }
+
+        ReactDOM.render(
+          <Welcome name="devNote"/>, document.getElementById('app')
+        );
+
+    }, false);
 }
 
-class Welcome extends React.Component {
-    render() {
-        return  <div><BackgroundImg/></div>;
-    }
-}
-
-function draw() {
-  var canvas = document.getElementById('canvas');
-  if (canvas.getContext) {
-    var ctx = canvas.getContext('2d');
-
-    // red bounding box
-
-    createRect(ctx, 'red', [20,20,150,150]);
-    createRect(ctx, 'green', [30,30,160,160]);
-  }
-}
-
-function createRect(contex, color='red', coor=[]) {
-    if (contex) {
-        contex.beginPath();
-        contex.lineWidth='6';
-        contex.strokeStyle= color;
-        contex.rect(...coor);
-        contex.stroke();
-    }
-}
-draw();
-
-ReactDOM.render(
-  <Welcome name="devNote"/>,
-  document.getElementById('app')
-);
+render();
