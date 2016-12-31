@@ -11,6 +11,15 @@ let styles = {
         margin: 'auto',
         width: '100%',
         padding: '0'
+    },
+    svg: {
+        fill: 'red'
+    },
+    rectSvg: {
+        stroke: 'black',
+        strokeWidth: '6',
+        fill: 'transparent',
+        margin: '10px'
     }
 };
 
