@@ -46,13 +46,17 @@ class SvgComponent extends React.Component {
     move(e) {
         if (this.state.drawRect) {
             let index = this.rectList.length - 1;
+            let width = e.nativeEvent.offsetX - this.rectListProps.x;
+            let height = e.nativeEvent.offsetY - this.rectListProps.y;
+            let x = width < 0 ? e.nativeEvent.offsetX : this.rectListProps.x;
+            let y = height < 0 ? e.nativeEvent.offsetY : this.rectListProps.y;
 
             this.setState({
-                width: Math.abs(e.nativeEvent.offsetX - this.rectListProps.x),
-                height: Math.abs(e.nativeEvent.offsetY - this.rectListProps.y)
+                width: Math.abs(width),
+                height: Math.abs(height)
             });
 
-            this.rectList[index] = <SvgRect key={index} x={this.rectListProps.x} y={this.rectListProps.y}
+            this.rectList[index] = <SvgRect key={index} x={x} y={y}
                 width={this.state.width} height={this.state.height}/>;
         }
     }
