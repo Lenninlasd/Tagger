@@ -12,6 +12,12 @@ class SvgRect extends React.Component {
     }
 };
 
+class SvgImage extends React.Component {
+    render() {
+        return <image xlinkHref={this.props.src} x="0" y="0"/>
+    }
+}
+
 class SvgComponent extends React.Component {
     constructor (props) {
         super(props);
@@ -68,73 +74,27 @@ class SvgComponent extends React.Component {
         });
     }
     render() {
-        return  <svg width="800" height="800" onMouseMove={this.move}
+        return  <svg width={this.props.width} height={this.props.height} onMouseMove={this.move}
                     onMouseDown={this.onDragEnd} onMouseUp={this.close}
                     onMouseLeave={this.close}>
+                    <SvgImage src={img.src}/>
                     {this.rectList}
                 </svg>;
-    }
-}
-
-
-class CanvasComponent extends React.Component {
-    componentDidMount() {
-        this.updateCanvas();
-    }
-    componentDidUpdate() {
-        this.updateCanvas();
-    }
-    createRect(contex, color='red', coor=[]) {
-        if (contex) {
-            contex.beginPath();
-            contex.lineWidth='6';
-            contex.strokeStyle= color;
-            contex.rect(...coor);
-            contex.stroke();
-        }
-    }
-    getMousePosition(canvas, e) {
-        var rect = canvas.getBoundingClientRect();
-        return {
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top
-        };
-    }
-    updateCanvas() {
-        const canvas = this.refs.canvas;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img,0,0);
-
-        canvas.addEventListener('mousedown', (e) => {
-            let positionStart = this.getMousePosition(canvas, e);
-            this.createRect(ctx, 'red', [positionStart.x, positionStart.y,160,160]);
-        });
-        canvas.addEventListener('mouseup', (e) => {
-            let positionEnd = this.getMousePosition(canvas, e);
-            this.createRect(ctx, 'yellow', [positionEnd.x, positionEnd.y,160,160]);
-        });
-    }
-    render() {
-
-        return (
-            <canvas ref="canvas" width={this.props.width} height={this.props.height}/>
-        );
     }
 }
 
 class Welcome extends React.Component {
     render() {
         return  <div>
-                    <CanvasComponent width={img.width} height={img.height}/>
-                    <SvgComponent/>
+                    <SvgComponent width={img.width} height={img.height}/>
                 </div>;
     }
 }
 
-img.addEventListener("load", function() {
+img.addEventListener('load', function() {
 
     ReactDOM.render(
-      <Welcome name="devNote"/>, document.getElementById('app')
+      <Welcome name='devNote'/>, document.getElementById('app')
     );
 
 }, false);
