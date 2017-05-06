@@ -14,7 +14,7 @@ class SvgRect extends React.Component {
 
 class SvgImage extends React.Component {
     render() {
-        return <image xlinkHref={this.props.src} x="0" y="0"/>
+        return <image className='img-fluid' xlinkHref={this.props.src} x="0" y="0"/>
     }
 }
 
@@ -83,9 +83,10 @@ class SvgComponent extends React.Component {
     }
 }
 
-class Welcome extends React.Component {
+class RenderTag extends React.Component {
     render() {
-        return  <div>
+        console.log('img.width', img.width);
+        return  <div className='container'>
                     <SvgComponent width={img.width} height={img.height}/>
                 </div>;
     }
@@ -94,7 +95,7 @@ class Welcome extends React.Component {
 img.addEventListener('load', function() {
 
     ReactDOM.render(
-      <Welcome name='devNote'/>, document.getElementById('app')
+      <RenderTag name='devNote'/>, document.getElementById('app')
     );
 
 }, false);

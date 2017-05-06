@@ -12,11 +12,8 @@ let styles = {
         width: '100%',
         padding: '0'
     },
-    svg: {
-        fill: 'red'
-    },
     rectSvg: {
-        stroke: 'black',
+        stroke: 'yellow',
         strokeWidth: '6',
         fill: 'transparent',
         margin: '10px'
